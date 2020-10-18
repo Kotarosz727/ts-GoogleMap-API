@@ -1,6 +1,10 @@
 import axios from "axios";
 
-const form = document.querySelector("form")!;
+const button = document.querySelector("button")!;
+type GoogleGeocodingResponce = {
+  results: { geometry: { location: { lat: number; lng: number } } }[];
+  status: "OK" | "ZERO_RESULTS";
+};
 
 const searchAddress = (event: Event): void => {
   event.preventDefault();
@@ -16,13 +20,21 @@ const searchAddress = (event: Event): void => {
     key;
 
   axios
-    .get(geoURL)
+    .get<GoogleGeocodingResponce>(geoURL)
     .then((response) => {
-      console.log(response);
+      if (response.data.status !== "OK") {
+        throw new Error("data not found");
+      }
+      const location = response.data.results[0].geometry.location;
+      const map = new google.maps.Map(document.getElementById("map")!, {
+        center: location,
+        zoom: 16,
+      });
+      new google.maps.Marker({ position: location, map: map });
     })
     .catch((err) => {
-      console.log(err);
+      alert(err.message);
     });
 };
 
-form.addEventListener("click", searchAddress);
+button.addEventListener("click", searchAddress);
