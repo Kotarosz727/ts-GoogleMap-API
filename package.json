@@ -22,6 +22,8 @@
   },
   "dependencies": {
     "@types/googlemaps": "^3.40.0",
-    "axios": "^0.20.0"
+    "axios": "^0.20.0",
+    "dotenv": "^8.2.0",
+    "dotenv-webpack": "^4.0.0"
   }
 }

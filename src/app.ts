@@ -1,4 +1,7 @@
 import axios from "axios";
+import * as dotenv from "dotenv";
+dotenv.config({ path: __dirname+'/.env' });
+require('dotenv').config({ path: __dirname+'/.env' });
 
 const button = document.querySelector("button")!;
 type GoogleGeocodingResponce = {
@@ -12,7 +15,7 @@ const searchAddress = (event: Event): void => {
   const enteredAddress = formValue.value;
   const encodedAddress = encodeURI(enteredAddress);
 
-  const key = "AIzaSyBwfxnZdCWTX_yqopCLD1381lyaLuKY4bE";
+  const key = process.env.GOOGLE_API_KEY;
   const geoURL =
     "https://maps.googleapis.com/maps/api/geocode/json?address=" +
     encodedAddress +
